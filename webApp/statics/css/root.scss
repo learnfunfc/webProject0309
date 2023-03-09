@@ -1,0 +1,24 @@
+$mainBlue: #00123D;
+$secondary: #705E08;
+$white: #fff;
+$shadow: #000;
+
+@mixin flex($jc:center,$ai:center) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+}
+
+@mixin size($w,$h:$w) {
+    width: $w;
+    height: $h;
+}
+@mixin bgset($pos:center,$size:cover) {
+    background-position: $pos;
+    background-size: $size;
+}
+
+@font-face {
+    font-family: 'noto sans';
+    src: url(../fonts/NotoSansHK-Thin.otf);
+}
