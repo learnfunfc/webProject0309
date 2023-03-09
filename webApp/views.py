@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import CourseCatalog
 from .forms import EditCourseForm
+
 '''
 todo
 1. add a function which can create new course and this course can bind to Catalog 
