@@ -23,12 +23,10 @@ class TeachCourse(models.Model):
 
 class TeachCourseUnit(models.Model):
     teach_course = models.ForeignKey(TeachCourse, on_delete=models.CASCADE)
-    unitOrder = models.IntegerField()
     unitName = models.CharField(max_length=200)
-    unit_description = models.TextField(max_length=200)
+    unit_description = models.TextField(max_length=200,null=True)
+    fileId = models.CharField(max_length=200,null=True)
 
-    class Meta:
-        ordering = ('unitOrder',)
-
+    
     def __str__(self):
-        return self.TeachCourseName
+        return self.unitName
