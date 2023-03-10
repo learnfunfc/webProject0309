@@ -1,8 +1,14 @@
 {% extends "base.html" %}
-{% block title %}課程目錄{% endblock%}
+{% block title %}系統目錄{% endblock%}
 {% block content %}
 <!--enter catalog menu-->
 <main role="main">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4" style="font-weight: bolder;">系統目錄</h1>
+          
+        </div>
+    </div>
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row justify-content-end mb-5">
@@ -15,7 +21,7 @@
             </div>
 
             <div class="row">
-                {% for catalog in allNameOfCatalog %}
+                {% for item in allName %}
                 <div class="col-md-4">
                     <div class="card mb-4 box-shadow">
                         <img class="card-img-top"
@@ -29,10 +35,10 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-secondary"
-                                            onclick="location.href='{{catalog.catalog_button}}';">View
+                                            onclick="location.href='/show_course/';">View
                                     </button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary"
-                                            onclick="location.href='/editcourse/';">Edit
+                                            onclick="location.href='/newcourse/';">Edit
                                     </button>
                                 </div>
 
