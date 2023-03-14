@@ -12,37 +12,36 @@ from hashlib import sha256
 
 '''
 todo
-1. add a function which can create new course and this course can bind to Catalog 
-user can press "add new course" button and then web page will show a form.
-2. optional: admin can edit the content of teaching materials at back-end.
+1. add edit forms on the modal
+2. add breadcrum function 
 '''
 
 # 呈現網頁目前內容
 def index(request):
     return render(request, "index.html", locals())
 
-# status用來呈現新增完成後列出所有項目 
+# status用來呈現alter畫面 提醒使用者已經完成新增
 def showCatalog(request, status=None): # 不帶有參數的url的寫法 
-    allName = CourseCatalog.objects.all()
+    allObject = CourseCatalog.objects.all()
     return render(request, "showCatalog.html", locals())
 
 def showCourse(request, status=None): 
-    allName= TeachCourse.objects.all()
+    allObject= TeachCourse.objects.all()
     return render(request, "showCourse.html", locals())
 
 def showUnit(request,status=None):
-    allName = TeachCourseUnit.objects.all()
+    allObject = TeachCourseUnit.objects.all()
     return render(request, "showUnit.html", locals())
 
 
 
-# 進入新增網頁表單
+# 進入新增網頁表單 deprecation!!!
 def newCatalog(request):
     return render(request, "newcata.html", locals())
 
 def newCourse(request):
     return render(request, "newcourse.html", locals())
-
+##### deprecation!!!
 
 # 儲存至資料庫
 def createCatalog(request):
