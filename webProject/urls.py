@@ -13,13 +13,13 @@ urlpatterns = [
     path("show_catalog/<str:courseName>/", views.showCatalog),
     path("show_course/", views.showCourse),
     path("show_course/<str:courseName>/", views.showCourse),
-    path("show_unit", views.showUnit),
+    path("show_unit/", views.showUnit),
 
     
-    path("createCatalog/", views.createCatalog),
-    
+    path("createCatalog/", views.createCatalog), 
     path("createCourse/", views.createCourse, name="creat_Course"),
     path("editunit/", views.editUnit),
+    path("editunit/<str:courseName>/", views.editUnit, name="create_unit"),
 
 ]
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
