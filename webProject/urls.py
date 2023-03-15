@@ -10,9 +10,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.index),
     path("show_catalog/", views.showCatalog),
-    path("show_catalog/<str:status>/", views.showCatalog),
+    path("show_catalog/<str:courseName>/", views.showCatalog),
     path("show_course/", views.showCourse),
-    path("show_course/<str:status>/", views.showCourse),
+    path("show_course/<str:courseName>/", views.showCourse),
     path("show_unit", views.showUnit),
 
     path("newcatalog/", views.newCatalog),

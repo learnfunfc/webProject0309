@@ -20,13 +20,18 @@ todo
 def index(request):
     return render(request, "index.html", locals())
 
-# status用來呈現alter畫面 提醒使用者已經完成新增
-def showCatalog(request, status=None): # 不帶有參數的url的寫法 
+
+def showCatalog(request,courseName=""): 
     allObject = CourseCatalog.objects.all()
+    mylocals = dict(locals()) # 用來檢查request參數
+    print(mylocals)
     return render(request, "showCatalog.html", locals())
 
-def showCourse(request, status=None): 
+def showCourse(request, courseName=""): 
     allObject= TeachCourse.objects.all()
+    print(courseName)
+    print(request)
+    
     return render(request, "showCourse.html", locals())
 
 def showUnit(request,status=None):
