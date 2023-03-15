@@ -15,12 +15,10 @@ urlpatterns = [
     path("show_course/<str:courseName>/", views.showCourse),
     path("show_unit", views.showUnit),
 
-    path("newcatalog/", views.newCatalog),
+    
     path("createCatalog/", views.createCatalog),
-    path("newcourse/", views.newCatalog),
-    path("createCourse/", views.createCourse),
-
-
+    
+    path("createCourse/", views.createCourse, name="creat_Course"),
     path("editunit/", views.editUnit),
 
 ]

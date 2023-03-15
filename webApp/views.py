@@ -10,43 +10,29 @@ import glob
 from hashlib import sha256 
 
 
-'''
-todo
-1. add edit forms on the modal
-2. add breadcrum function 
-'''
 
-# 呈現網頁目前內容
+
+# present web content
 def index(request):
     return render(request, "index.html", locals())
 
 
 def showCatalog(request,courseName=""): 
     allObject = CourseCatalog.objects.all()
-    mylocals = dict(locals()) # 用來檢查request參數
-    print(mylocals)
+    # mylocals = dict(locals()) # 用來檢查request參數
     return render(request, "showCatalog.html", locals())
+
 
 def showCourse(request, courseName=""): 
     allObject= TeachCourse.objects.all()
-    print(courseName)
-    print(request)
-    
     return render(request, "showCourse.html", locals())
+
 
 def showUnit(request,status=None):
     allObject = TeachCourseUnit.objects.all()
     return render(request, "showUnit.html", locals())
 
 
-
-# 進入新增網頁表單 deprecation!!!
-def newCatalog(request):
-    return render(request, "newcata.html", locals())
-
-def newCourse(request):
-    return render(request, "newcourse.html", locals())
-##### deprecation!!!
 
 # 儲存至資料庫
 def createCatalog(request):
@@ -56,23 +42,26 @@ def createCatalog(request):
         catalog = CourseCatalog.objects.create(CourseCatalogName=name, description=descript)
         allNameOfCatalog = CourseCatalog.objects.all()
         catalog.save()
-        contextDict = locals()
-
-        if catalog: # 成功建立實體
-            return redirect("/show_catalog/success/") # 返回預覽畫面
+        
+        # check whether instance is created??
+        # if catalog: # 成功建立實體
+        #     return redirect("/show_catalog/") # 返回預覽畫面
         
         return redirect("/show_catalog/")
 
 
 def createCourse(request):
     if request.method == 'POST':
+        
         name = request.POST["name"].strip()
         descript = request.POST["descript"]
-        course_catalog = CourseCatalog.objects.get(name)
-        course = TeachCourse.objects.create(course_catalog=course_catalog,TeachCourseName=name, description=descript)
+        courseName = request.GET.get("p")
+        print(courseName)
+        course_catalog = CourseCatalog.objects.get(CourseCatalogName=courseName)
+        course = TeachCourse.objects.create(course_catalog=course_catalog,TeachCourseName=name,teach_description=descript)
         course.save()
-        if course:
-            return redirect("/show_course/success/") # 返回預覽畫面
+        # if course:
+        #     return redirect("/show_course/") # 返回預覽畫面
         return redirect("/show_course/")
 
 
@@ -83,7 +72,7 @@ def editUnit(request):
         name = request.POST["name"].strip()
         descript = request.POST["descript"]
         course = TeachCourse.objects.get(name)
-        unit = TeachCourse.objects.create(teach_course=course,unitName=name, description=descript)
+        unit = TeachCourse.objects.create(teach_course=course,unitName=name, unit_description=descript)
         course.save()
         if upLoadForm.is_valid():
             upLoadfile = save_htmlFile(request.FILES['file'])
@@ -99,6 +88,7 @@ def editUnit(request):
 
     return render(request, "editcourse.html", {"form": form})
 
+
 def save_htmlFile(f):
     filename = f.name
     filename = filename.split(".")[0] #remove file extention
@@ -109,6 +99,7 @@ def save_htmlFile(f):
             destination.write(chunk)
         
     return os.path.basename(target)
+
 
 def hashEncoding(filename,length=15):
     nameut8 = filename.encode('utf-8')

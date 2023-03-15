@@ -139,10 +139,10 @@
     
     function getViewId(elementId)
     {
-       let e =  document.getElementById(elementId);
-       alert(e.innerHTML);
-       window.location.href = "/show_course/" + e.innerHTML;
-       console.log(window.location.hostname)     
+      let e =  document.getElementById(elementId);
+       
+      window.location.href = "/show_course/" + e.innerHTML;
+      console.log(window.location.hostname)     
     }
 
 
