@@ -66,27 +66,27 @@ def createCourse(request):
 
 
 # 進入編輯unit網頁儲存資料庫和html file
-def editUnit(request):
-    if request.method == "POST":
-        upLoadForm = EditCourseForm(request.POST,request.FILES)
-        name = request.POST["name"].strip()
-        descript = request.POST["descript"]
-        course = TeachCourse.objects.get(name)
-        unit = TeachCourse.objects.create(teach_course=course,unitName=name, unit_description=descript)
-        course.save()
+def editUnit(request,courseName=None):
+    
+    print(courseName)
+    if request.method == "POST" and courseName: # 如果是表單傳來的資料
+        upLoadForm = EditCourseForm(request.POST,request.FILES) # use form.py產生 form 
+        course = TeachCourse.objects.get(TeachCourseName = courseName)
+       
         if upLoadForm.is_valid():
             upLoadfile = save_htmlFile(request.FILES['file'])
-            unit_name = request.POST["unitName"].strip()
-            unit_discript = request.POST["content"]
+            name = request.POST["name"].strip()
+            discript = request.POST["descript"]
             file_id = hashEncoding(request.FILES['file'].name)
-            unintOfinstance = TeachCourseUnit.objects.create(unitName=unit_name,unit_description=unit_discript,fileId= file_id)
+            unintOfinstance = TeachCourseUnit.objects.create(teach_course=course,unitName=name, unit_description=discript,fileId= file_id)
             unintOfinstance.save()
-            return redirect("/show_catalog/")
+            return redirect("/show_unit/")
         
     else:
+        # 不是表單傳來的產生表單
         form  = EditCourseForm(request.POST)
 
-    return render(request, "editcourse.html", {"form": form})
+    return render(request, "showUnit.html",{"form": form,"courseName" :courseName})
 
 
 def save_htmlFile(f):
