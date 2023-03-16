@@ -29,7 +29,7 @@ def showCourse(request, courseName=""):
 
 
 def showUnit(request,status=None):
-    allObject = TeachCourseUnit.objects.all()
+    allObject = TeachCourseUnit.objects.all()# 沒有特異性
     return render(request, "showUnit.html", locals())
 
 
@@ -67,8 +67,6 @@ def createCourse(request):
 
 # 進入編輯unit網頁儲存資料庫和html file
 def editUnit(request,courseName=None):
-    
-    print(courseName)
     if request.method == "POST" and courseName: # 如果是表單傳來的資料
         upLoadForm = EditCourseForm(request.POST,request.FILES) # use form.py產生 form 
         course = TeachCourse.objects.get(TeachCourseName = courseName)
@@ -85,8 +83,9 @@ def editUnit(request,courseName=None):
     else:
         # 不是表單傳來的產生表單
         form  = EditCourseForm(request.POST)
+        allunit = TeachCourseUnit.objects.all() # 沒辦法取得c++所屬的課程
 
-    return render(request, "showUnit.html",{"form": form,"courseName" :courseName})
+    return render(request, "showUnit.html",{"form": form,"courseName" :courseName,"allObject":allunit})
 
 
 def save_htmlFile(f):
