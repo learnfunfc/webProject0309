@@ -43,12 +43,14 @@
             </tr>
           </thead>
           <tbody>
+            {% load static %}
             {% for item in allObject %}
             <tr>
               <th scope="row">1</th>
               <td>{{ item.unitName}}</td>
               <td>{{ item.unit_description}}</td>
-              <td><a ref="#">進入</a> </td>
+              <!-- ca978112ca1bbdc -->
+              <td><a href="{{ MEDIA_URL }}ca978112ca1bbdc.html">查看</a> </td>
             </tr>
 
             {% endfor %}
