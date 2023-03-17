@@ -5,7 +5,7 @@ from django.utils import timezone
 class CourseCatalog(models.Model):
     CourseCatalogName = models.CharField(max_length=200)
     description = models.TextField(default="#", max_length=200)
-    fileId = models.CharField(default="#", max_length=200)
+    catalog_button = models.CharField(default="#", max_length=200)
     def __str__(self):
         return self.CourseCatalogName
     
@@ -14,7 +14,7 @@ class TeachCourse(models.Model):
     course_catalog = models.ForeignKey(CourseCatalog, on_delete=models.CASCADE)
     TeachCourseName = models.CharField(max_length=200)
     teach_description = models.TextField(max_length=200)
-    fileId = models.CharField(default='#', max_length=200)
+    teachOfpic = models.CharField(default='#', max_length=200)
     
 
     def __str__(self):
