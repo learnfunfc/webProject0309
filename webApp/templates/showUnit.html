@@ -36,21 +36,21 @@
         <table class="table">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">#</th>
+              <th scope="col">編號</th>
               <th scope="col">單元名稱</th>
               <th scope="col">敘述</th>
-              <th scope="col">查看</th>
+              <th scope="col"> </th>
             </tr>
           </thead>
           <tbody>
             {% load static %}
             {% for item in allObject %}
             <tr>
-              <th scope="row">1</th>
+              <th scope="row">{{forloop.counter}}</th>
               <td>{{ item.unitName}}</td>
               <td>{{ item.unit_description}}</td>
               <!-- ca978112ca1bbdc -->
-              <td><a href="/showUnitContent/{{item.fileId}}">查看</a> </td>
+              <td><a href="/showUnitContent/{{item.fileId}}">View</a> </td>
               
             </tr>
 
