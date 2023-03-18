@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import CourseCatalog, TeachCourseUnit, TeachCourse
 from .forms import EditCourseForm
-
 from django.conf import settings
 from uuid_upload_path import uuid  # not used
 import os
@@ -65,9 +64,18 @@ def createCourse(request):
         return redirect("/show_course/")
 
 
-# 進入編輯unit網頁儲存資料庫和html file
-def editUnit(request, courseName=None):
+def showUnitContent(request,fileId):
+    target = os.path.join(settings.BASE_DIR, "webApp",
+                          "templates2", fileId + '.html')
+    with open(target,"r",encoding="utf-8") as file:
+        content = file.read()
     
+    return render(request,"showUnitContent.html",locals())
+    #return HttpResponse(content)
+
+
+# 進入編輯unit網頁儲存資料庫和html file
+def editUnit(request, courseName=None):  
     if request.method == "POST" and courseName:  # 如果是表單傳來的資料
         upLoadForm = EditCourseForm(
             request.POST, request.FILES)  # use form.py產生 form
@@ -75,6 +83,7 @@ def editUnit(request, courseName=None):
 
         if upLoadForm.is_valid():
             upLoadfile = save_htmlFile(request.FILES['file'])
+            print(upLoadfile)
             name = request.POST["name"].strip()
             discript = request.POST["descript"]
             filename = request.FILES['file'].name.split(".")[0]
@@ -83,14 +92,12 @@ def editUnit(request, courseName=None):
             unintOfinstance = TeachCourseUnit.objects.create(
             teach_course=course, unitName=name, unit_description=discript, fileId=file_id)
             unintOfinstance.save()
-            return redirect("/editunit/"+courseName)
-            
+            return redirect("/editunit/"+courseName)      
     else:
         # 不是表單傳來的post就產生表單
         form = EditCourseForm(request.POST)
         course = TeachCourse.objects.get(TeachCourseName=courseName)
         allunit = course.teachcourseunit_set.all() # 注意此寫法
-
 
     return render(request, "showUnit.html", {"form": form, "courseName": courseName, "allObject": allunit})
 
@@ -100,12 +107,13 @@ def save_htmlFile(f):
     filename = filename.split(".")[0]  # remove file extention
 
     target = os.path.join(settings.BASE_DIR, "webApp",
-                          "media", hashEncoding(filename) + '.html')
+                          "templates2", hashEncoding(filename) + '.html')
+    
     with open(target, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
-    return os.path.basename(target)
+    return os.path.basename(target) # 回傳檔名.副檔名
 
 
 def hashEncoding(filename, length=15):
