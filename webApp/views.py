@@ -65,6 +65,16 @@ def createCourse(request):
         return redirect("/show_course/")
 
 
+def showUnitContent(request,fileId):
+    target = os.path.join(settings.BASE_DIR, "webApp",
+                          "templates2", fileId + '.html')
+    with open(target,"r") as file:
+        content = file.read()
+    
+    return render(request,"showUnitContent.html",locals())
+    #return HttpResponse(content)
+
+
 # 進入編輯unit網頁儲存資料庫和html file
 def editUnit(request, courseName=None):
     
@@ -75,6 +85,7 @@ def editUnit(request, courseName=None):
 
         if upLoadForm.is_valid():
             upLoadfile = save_htmlFile(request.FILES['file'])
+            print(upLoadfile)
             name = request.POST["name"].strip()
             discript = request.POST["descript"]
             filename = request.FILES['file'].name.split(".")[0]
@@ -100,12 +111,13 @@ def save_htmlFile(f):
     filename = filename.split(".")[0]  # remove file extention
 
     target = os.path.join(settings.BASE_DIR, "webApp",
-                          "media", hashEncoding(filename) + '.html')
+                          "template2", hashEncoding(filename) + '.html')
+    #print(target) # 儲存路徑
     with open(target, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
-    return os.path.basename(target)
+    return os.path.basename(target) # 回傳檔名.副檔名
 
 
 def hashEncoding(filename, length=15):
