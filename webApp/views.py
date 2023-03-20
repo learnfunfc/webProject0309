@@ -37,14 +37,14 @@ def createCatalog(request):
             request.POST, request.FILES)  # use form.py產生 form
         
         if upLoadForm.is_valid():
-                upLoadfile = save_htmlFile(request.FILES['file'])
+                upLoadfile = save_File(request.FILES['file'],"jpg")
                 
                 name = request.POST["name"].strip()
                 discript = request.POST["descript"]
                 filename = request.FILES['file'].name.split(".")[0]
                 file_id = hashEncoding(filename)
                 
-                CatalogOfinstance = CreateCatalogForm.objects.create(
+                CatalogOfinstance = CourseCatalog.objects.create(
                 CourseCatalogName=name, description=discript, catalogOfpic=file_id)
                 CatalogOfinstance.save()
                 return redirect("/createCatalog/")      
@@ -52,8 +52,7 @@ def createCatalog(request):
           
         form = CreateCatalogForm(request.POST)
         allObject = CourseCatalog.objects.all()
-        
-        
+       
 
     return render(request, "showCatalog.html", {"form": form,  "allObject": allObject})
 
@@ -66,14 +65,14 @@ def createCourse(request,courseName=None):
             request.POST, request.FILES)  # use form.py產生 form
         course = CourseCatalog.objects.get(CourseCatalogName=courseName)
         if upLoadForm.is_valid():
-                upLoadfile = save_htmlFile(request.FILES['file'])
+                upLoadfile = save_File(request.FILES['file'],"jpg")
                 
                 name = request.POST["name"].strip()
                 discript = request.POST["descript"]
                 filename = request.FILES['file'].name.split(".")[0]
                 file_id = hashEncoding(filename)
                 
-                CourseOfinstance = CourseCatalog.objects.create(
+                CourseOfinstance = TeachCourse.objects.create(
                 course_catalog=course,TeachCourseName=name, teach_description=discript, teachOfpic=file_id)
                 CourseOfinstance.save()
                 return redirect("/createCourse/"+courseName)      
@@ -84,7 +83,7 @@ def createCourse(request,courseName=None):
         course = CourseCatalog.objects.get(CourseCatalogName=courseName)
         allunit = course.teachcourse_set.all() # 注意此寫法
 
-    return render(request, "showCourse.html", {"form": form, "courseName": courseName, "allObject": allunit})
+    return render(request, "showCourse.html", {"form": form, "allObject": allunit})
 
 
 
@@ -108,7 +107,7 @@ def editUnit(request, courseName=None):
         course = TeachCourse.objects.get(TeachCourseName=courseName)
 
         if upLoadForm.is_valid():
-            upLoadfile = save_htmlFile(request.FILES['file'])
+            upLoadfile = save_File(request.FILES['file'],"html")
            
             name = request.POST["name"].strip()
             discript = request.POST["descript"]
@@ -128,13 +127,16 @@ def editUnit(request, courseName=None):
     return render(request, "showUnit.html", {"form": form, "courseName": courseName, "allObject": allunit})
 
 
-def save_htmlFile(f):
+def save_File(f,filetype):
     filename = f.name
     filename = filename.split(".")[0]  # remove file extention
-
-    target = os.path.join(settings.BASE_DIR, "webApp",
-                          "templates2", hashEncoding(filename) + '.html')
-    
+    if filetype=="html":
+        target = os.path.join(settings.BASE_DIR, "webApp",
+                            "templates2", hashEncoding(filename) + "."+ filetype)
+    if filetype=="jpg":
+        target = os.path.join(settings.BASE_DIR,
+                            "media", hashEncoding(filename) + "."+ filetype)
+        
     with open(target, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)

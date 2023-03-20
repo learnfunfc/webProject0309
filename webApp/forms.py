@@ -5,7 +5,7 @@ class CreateCatalogForm(forms.Form):
         attrs={'class': 'form-control'}), max_length=100)
     descript = forms.CharField(
         label="內容", widget=forms.Textarea(attrs={'class': 'form-control'}))
-    file = forms.FileField(label="圖片上傳")
+    file = forms.FileField(label="圖片上傳",required=False)
 
 
 class CreateCourseForm(forms.Form):
@@ -13,7 +13,7 @@ class CreateCourseForm(forms.Form):
         attrs={'class': 'form-control'}), max_length=100)
     descript = forms.CharField(
         label="內容", widget=forms.Textarea(attrs={'class': 'form-control'}))
-    file = forms.FileField(label="圖片上傳")
+    file = forms.FileField(label="圖片上傳",required=False)
 
 
 class CreateUnitForm(forms.Form):
@@ -21,4 +21,4 @@ class CreateUnitForm(forms.Form):
         attrs={'class': 'form-control'}), max_length=100)
     descript = forms.CharField(
         label="內容", widget=forms.Textarea(attrs={'class': 'form-control'}))
-    file = forms.FileField(label="上傳檔案")
+    file = forms.FileField(label="上傳檔案",required=False)
