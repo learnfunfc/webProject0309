@@ -18,6 +18,7 @@ urlpatterns = [
     
     path("createCatalog/", views.createCatalog), 
     path("createCourse/", views.createCourse, name="creat_Course"),
+    path("createCourse/<str:courseName>/", views.createCourse, name="creat_Course"),
     path("editunit/", views.editUnit),
     path("editunit/<str:courseName>/", views.editUnit, name="create_unit"),
     path("showUnitContent/<str:fileId>/", views.showUnitContent),
@@ -25,4 +26,4 @@ urlpatterns = [
 
 ]
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
-print(urlpatterns)
+

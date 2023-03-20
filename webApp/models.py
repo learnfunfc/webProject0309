@@ -5,7 +5,7 @@ from django.utils import timezone
 class CourseCatalog(models.Model):
     CourseCatalogName = models.CharField(max_length=200)
     description = models.TextField(default="#", max_length=200)
-    catalog_button = models.CharField(default="#", max_length=200)
+    catalogOfpic = models.CharField(default="#", max_length=200)
     def __str__(self):
         return self.CourseCatalogName
     

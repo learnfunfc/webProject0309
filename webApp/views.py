@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import CourseCatalog, TeachCourseUnit, TeachCourse
-from .forms import EditCourseForm
+from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm
 from django.conf import settings
 from uuid_upload_path import uuid  # not used
 import os
@@ -32,36 +32,62 @@ def showUnit(request, status=None):
 
 # 儲存至資料庫
 def createCatalog(request):
-    if request.method == 'POST':
-        name = request.POST["name"].strip()
-        descript = request.POST["descript"]
-        catalog = CourseCatalog.objects.create(
-            CourseCatalogName=name, description=descript)
-        allNameOfCatalog = CourseCatalog.objects.all()
-        catalog.save()
+    if request.method == "POST" :  # 如果是表單傳來的資料
+        upLoadForm = CreateCatalogForm(
+            request.POST, request.FILES)  # use form.py產生 form
+        
+        if upLoadForm.is_valid():
+                upLoadfile = save_htmlFile(request.FILES['file'])
+                
+                name = request.POST["name"].strip()
+                discript = request.POST["descript"]
+                filename = request.FILES['file'].name.split(".")[0]
+                file_id = hashEncoding(filename)
+                
+                CatalogOfinstance = CreateCatalogForm.objects.create(
+                CourseCatalogName=name, description=discript, catalogOfpic=file_id)
+                CatalogOfinstance.save()
+                return redirect("/createCatalog/")      
+    else:
+          
+        form = CreateCatalogForm(request.POST)
+        allObject = CourseCatalog.objects.all()
+        
+        
 
-        # check whether instance is created??
-        # if catalog: # 成功建立實體
-        #     return redirect("/show_catalog/") # 返回預覽畫面
-
-        return redirect("/show_catalog/")
+    return render(request, "showCatalog.html", {"form": form,  "allObject": allObject})
 
 
-def createCourse(request):
-    if request.method == 'POST':
 
-        name = request.POST["name"].strip()
-        descript = request.POST["descript"]
-        courseName = request.GET.get("p")
-        print(courseName)
-        course_catalog = CourseCatalog.objects.get(
-            CourseCatalogName=courseName)
-        course = TeachCourse.objects.create(
-            course_catalog=course_catalog, TeachCourseName=name, teach_description=descript)
-        course.save()
-        # if course:
-        #     return redirect("/show_course/") # 返回預覽畫面
-        return redirect("/show_course/")
+
+def createCourse(request,courseName=None):
+    if request.method == "POST" and courseName:  # 如果是表單傳來的資料
+        upLoadForm = CreateCourseForm(
+            request.POST, request.FILES)  # use form.py產生 form
+        course = CourseCatalog.objects.get(CourseCatalogName=courseName)
+        if upLoadForm.is_valid():
+                upLoadfile = save_htmlFile(request.FILES['file'])
+                
+                name = request.POST["name"].strip()
+                discript = request.POST["descript"]
+                filename = request.FILES['file'].name.split(".")[0]
+                file_id = hashEncoding(filename)
+                
+                CourseOfinstance = CourseCatalog.objects.create(
+                course_catalog=course,TeachCourseName=name, teach_description=discript, teachOfpic=file_id)
+                CourseOfinstance.save()
+                return redirect("/createCourse/"+courseName)      
+    else:
+        # 不是表單傳來的post就產生表單
+        
+        form = CreateCourseForm(request.POST)
+        course = CourseCatalog.objects.get(CourseCatalogName=courseName)
+        allunit = course.teachcourse_set.all() # 注意此寫法
+
+    return render(request, "showCourse.html", {"form": form, "courseName": courseName, "allObject": allunit})
+
+
+
 
 
 def showUnitContent(request,fileId):
@@ -77,13 +103,13 @@ def showUnitContent(request,fileId):
 # 進入編輯unit網頁儲存資料庫和html file
 def editUnit(request, courseName=None):  
     if request.method == "POST" and courseName:  # 如果是表單傳來的資料
-        upLoadForm = EditCourseForm(
+        upLoadForm = CreateUnitForm(
             request.POST, request.FILES)  # use form.py產生 form
         course = TeachCourse.objects.get(TeachCourseName=courseName)
 
         if upLoadForm.is_valid():
             upLoadfile = save_htmlFile(request.FILES['file'])
-            print(upLoadfile)
+           
             name = request.POST["name"].strip()
             discript = request.POST["descript"]
             filename = request.FILES['file'].name.split(".")[0]
@@ -95,7 +121,7 @@ def editUnit(request, courseName=None):
             return redirect("/editunit/"+courseName)      
     else:
         # 不是表單傳來的post就產生表單
-        form = EditCourseForm(request.POST)
+        form = CreateUnitForm(request.POST)
         course = TeachCourse.objects.get(TeachCourseName=courseName)
         allunit = course.teachcourseunit_set.all() # 注意此寫法
 
