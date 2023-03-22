@@ -23,7 +23,8 @@ urlpatterns = [
     path("editunit/", views.editUnit),
     path("editunit/<str:courseName>/", views.editUnit, name="create_unit"),
     path("showUnitContent/<str:fileId>/", views.showUnitContent),
-    
+    # create question url
+    path('create-question/', views.create_question, name='create_question'),
 
 ]
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

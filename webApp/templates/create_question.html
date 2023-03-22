@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Create a new question</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div div class="col-8">
+            <form method="post">
+                {% csrf_token %}
+                <h3>題目</h3>
+                {{ form.text.label_tag }} {{ form.text }}
+                <hr>
+                {% for choice_form in form.choice_forms %}
+                <div class="row align-items-center mt-2">
+                    <div div class="col-8 ">
+                        {{ choice_form.text.label_tag }} {{ choice_form.text }}
+                    </div>
+                    <div class="col-2"> {{ choice_form.is_correct.label_tag }} </div>
+                    <div class="col-2" style="height:30px;">{{ choice_form.is_correct }} </div>
+
+                </div>
+                {% endfor %}
+                <button type="submit">Create Question</button>
+            </form>
+            {% endblock %}
+        </div>
+    </div>
+</div>

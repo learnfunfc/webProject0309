@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import CourseCatalog, TeachCourseUnit, TeachCourse,Quiz,Question,Choice
-from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm
+from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm,QuestionForm
 from django.conf import settings
 from uuid_upload_path import uuid  # not used
 import os
@@ -150,5 +150,18 @@ def hashEncoding(filename, length=15):
     return hashValue[:length]
 
 
-# def createQuiz(request,courseName):
-#     if request.method == 'POST':
+def create_question(request):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, num_choices=4)
+        if form.is_valid():
+            question = form.save()
+            for choice_form in form.choice_forms:
+                if choice_form.is_valid():
+                    choice = choice_form.save(commit=False)
+                    choice.question = question
+                    choice.save()
+            return redirect('your_view_name')
+    else:
+        form = QuestionForm(num_choices=4) # 創建一個空的 QuestionForm 實例，等待用戶提交表單
+
+    return render(request, 'create_question.html',{'form':form})
