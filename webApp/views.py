@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import CourseCatalog, TeachCourseUnit, TeachCourse
+from .models import CourseCatalog, TeachCourseUnit, TeachCourse,Quiz,Question,Choice
 from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm
 from django.conf import settings
 from uuid_upload_path import uuid  # not used
@@ -148,3 +148,7 @@ def hashEncoding(filename, length=15):
     nameut8 = filename.encode('utf-8')
     hashValue = sha256(nameut8).hexdigest()
     return hashValue[:length]
+
+
+# def createQuiz(request,courseName):
+#     if request.method == 'POST':

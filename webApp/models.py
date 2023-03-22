@@ -33,7 +33,9 @@ class TeachCourseUnit(models.Model):
 # 測驗
 class Quiz(models.Model):
     title = models.CharField(max_length=200)
+    quizId = models.CharField(max_length=200,null=True)
     description = models.TextField(blank=True, null=True)
+    createDate = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.title
