@@ -42,9 +42,11 @@ class ChoiceForm(forms.ModelForm):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ('text',)
+        fields = ('text','tag')
+        #表單中輸入逗號分隔的標籤，如 "tag1, tag2, tag3", tags_list = question.tags.split(', ')逗號分隔的字符串，並在需要時將其轉換為列表
         widgets = {
-            'text': forms.TextInput(attrs={'class': 'form-control'})
+            'text': forms.TextInput(attrs={'class': 'form-control'}),
+            'tag': forms.TextInput(attrs={'class': 'form-control'})
         }
         
 
