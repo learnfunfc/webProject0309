@@ -156,9 +156,12 @@ def create_question(request):
         if form.is_valid():
             # save form
             question = form.save()
-            
+            """ 使用 enumerate 函數獲取當前選擇表單的索引。
+                然後，我們使用從 request.POST 提交的數據以及相應的前綴來初始化每個 choice_form。
+                這樣，驗證函數將使用提交的數據對每個 choice_form 進行驗證，然後正確地保存 choice。 """
             for i, choice_form in enumerate(form.choice_forms): 
                 # Initialize choice form with submitted POST data
+                
                 choice_form = ChoiceForm(request.POST, prefix=f'choice_{i}')
                 if choice_form.is_valid():
                 
