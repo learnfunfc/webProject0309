@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import CourseCatalog, TeachCourseUnit, TeachCourse,Quiz,Question,Choice
-from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm,QuestionForm
+from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm,QuestionForm,ChoiceForm
 from django.conf import settings
 from uuid_upload_path import uuid  # not used
 import os
@@ -157,8 +157,9 @@ def create_question(request):
             # save form
             question = form.save()
             
-            for choice_form in form.choice_forms:
-                # save choice
+            for i, choice_form in enumerate(form.choice_forms): 
+                # Initialize choice form with submitted POST data
+                choice_form = ChoiceForm(request.POST, prefix=f'choice_{i}')
                 if choice_form.is_valid():
                 
                     choice = choice_form.save(commit=False)
