@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %} 題目 {% endblock %}
+{% block content %}
+{% for item in allQuestion %}
+<p>題目: {{item.text}}</p>
+<p>選項:</p>
+{% for c in item.choice_set.all %}
+<p>{{c.text}}</p>
+{% endfor %}
+{% endfor%}
+{% endblock%}

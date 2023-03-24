@@ -46,10 +46,13 @@ class QuestionForm(forms.ModelForm):
         widgets = {
             'text': forms.TextInput(attrs={'class': 'form-control'})
         }
+        
 
     def __init__(self, *args, **kwargs):
-        num_choices = kwargs.pop('num_choices', 4)  # default 4 choices
+        #要創建的相關 ChoiceForm 的數量。如果未提供，則將其設置為 4（表示有 4 個選擇）
+        num_choices = kwargs.pop('num_choices', 4)  # 
         super(QuestionForm, self).__init__(*args, **kwargs)
+        #創建一個名為 choice_forms 的屬性，該屬性包含 num_choices 數量的 ChoiceForm 實例列表。我們為每個 ChoiceForm 提供了一個唯一的前綴（例如，choice_0，choice_1 等），以便在提交表單時能夠區分這些表單。
         self.choice_forms = [ChoiceForm(
             prefix=f'choice_{i}') for i in range(num_choices)]
         self.fields["text"].label="題目"

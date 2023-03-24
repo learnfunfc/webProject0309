@@ -5,7 +5,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div div class="col-8">
-            <form method="post">
+
+            <form method="post" action="/create_question/">
+
                 {% csrf_token %}
                 <h3>題目</h3>
                 {{ form.text.label_tag }} {{ form.text }}

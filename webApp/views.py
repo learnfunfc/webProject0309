@@ -154,14 +154,23 @@ def create_question(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST, num_choices=4)
         if form.is_valid():
+            # save form
             question = form.save()
+            
             for choice_form in form.choice_forms:
+                # save choice
                 if choice_form.is_valid():
+                
                     choice = choice_form.save(commit=False)
                     choice.question = question
                     choice.save()
-            return redirect('your_view_name')
+            return redirect('/showAllQuestion/')
     else:
         form = QuestionForm(num_choices=4) # 創建一個空的 QuestionForm 實例，等待用戶提交表單
 
-    return render(request, 'create_question.html',{'form':form})
+    return render(request, 'create_question.html',{'form':form,'choice_forms': form.choice_forms})
+
+
+def showAllQuestion(request):
+    allQuestion = Question.objects.all()
+    return render(request,"showAllQ.html",locals())
