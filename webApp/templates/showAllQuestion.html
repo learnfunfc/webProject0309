@@ -2,30 +2,58 @@
 {% block title %} 題目 {% endblock %}
 {% block content %}
 
-<p>題目: {{item.text}}</p>
-<p>選項:</p>
 
-<div class="container">
-    <div class="row">
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col" style="width: 10%;">編號</th>
-                    <th scope="col">題目</th>
-                    <th scope="col" style="width: 10%;"> </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% load static %}
-                {% for q in allQuestion %}
-                <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <td>{{ q.text}}</td>
-                    <td><a href="#">Add</a> </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-    </div>
-</div>
 
-{% endblock %}
+<div class="container mt-5">
+    <!--new button-->
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-end mb-5">
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" data-toggle="modal"
+                        onclick="location.href='/create_question/'" style="font-size: 24px">
+                        New
+                    </button>
+                </div>
+            </div>
+
+            
+                <form method="POST" action="/addQ2quiz/">
+                    {% csrf_token %}
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" style="width: 10%;">編號</th>
+                                <th scope="col">題目</th>
+                                <th scope="col" style="width: 10%;"> 加入 </th>
+                            </tr>
+                        </thead>
+
+
+
+
+                        <tbody>
+                            {% load static %}
+
+                            {% for q in allQuestion %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{ q.text}}</td>
+                                <!-- show checkbox  -->
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input position-static" type="checkbox"
+                                            id="blankCheckbox" name={{q.questionId}} value="true">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-primary" onclick="notion()">確定</button>
+                </form>
+            
+        </div>
+
+        {% endblock %}

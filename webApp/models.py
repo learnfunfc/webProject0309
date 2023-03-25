@@ -43,6 +43,7 @@ class Quiz(models.Model):
 # 題目
 class Question(models.Model):
     text = models.TextField()
+    questionId = models.CharField(max_length=200,null=True)
     tag = models.CharField(max_length=255, blank=True, null=True)
     def __str__(self):
         return self.text

@@ -150,6 +150,10 @@ def create_question(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST, num_choices=4)
         if form.is_valid():
+            id = hashEncoding("a001")
+            question = form.save(commit=False)
+            question.questionId = id
+            
             # save form
             question = form.save()
             """ 使用 enumerate 函數獲取當前選擇表單的索引。
@@ -163,6 +167,7 @@ def create_question(request):
 
                     choice = choice_form.save(commit=False)
                     choice.question = question
+                    
                     choice.save()
             return redirect('/showAllQuestion/')
     else:
@@ -171,8 +176,8 @@ def create_question(request):
     return render(request, 'create_question.html', {'form': form, 'choice_forms': form.choice_forms})
 
 
-def showAllQuestion(request):
-    allQuestion = Question.objects.all()
+def showAllQuestion(request,quizID):
+    # allQuestion = Quiz.objects.get(qut)
     return render(request, "showAllQuestion.html", locals())
 
 
@@ -195,3 +200,7 @@ def createQuiz(request):
     return render(request, "showAllQuiz.html", context)
 
 
+def addQuestionInQuiz(request):
+    if request.method == "POST":
+        print(request.POST)
+    return redirect('/showAllQuestion/')
