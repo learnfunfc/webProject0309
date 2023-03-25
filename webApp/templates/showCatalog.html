@@ -106,9 +106,14 @@
 
   function getViewId(elementId) {
     let e = document.getElementById(elementId);
-
-    window.location.href = "/createCourse/" + e.innerHTML;
-    console.log(window.location.hostname)
+    if (elementId==1)
+    {
+      window.location.href = "/showAllQuiz/" ;
+    }
+    else if (elementId == 2)
+    {
+      window.location.href = "/createCourse/" + e.innerHTML;
+    }
   }
 
 

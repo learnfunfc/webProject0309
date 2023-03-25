@@ -26,6 +26,7 @@ urlpatterns = [
     # create question url
     path('create_question/', views.create_question, name='create_question'),
     path('showAllQuestion/', views.showAllQuestion, name='create_question'),
+    path('showAllQuiz/', views.showAllQuiz, name='create_question'),
 ]
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
