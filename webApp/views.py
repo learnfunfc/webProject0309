@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import CourseCatalog, TeachCourseUnit, TeachCourse, Quiz, Question, Choice
-from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm, QuestionForm, ChoiceForm
+from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm, QuestionForm, ChoiceForm,createQuizForm
 from django.conf import settings
 from uuid_upload_path import uuid  # not used
 import os
 import glob
 from hashlib import sha256
+from datetime import datetime
+
 
 
 # present web content
@@ -138,8 +140,8 @@ def save_File(f, filetype):
     return os.path.basename(target)  # 回傳檔名.副檔名
 
 
-def hashEncoding(filename, length=15):
-    nameut8 = filename.encode('utf-8')
+def hashEncoding(string, length=15):
+    nameut8 = string.encode('utf-8')
     hashValue = sha256(nameut8).hexdigest()
     return hashValue[:length]
 
@@ -174,6 +176,22 @@ def showAllQuestion(request):
     return render(request, "showAllQuestion.html", locals())
 
 
-def showAllQuiz(request):
+def createQuiz(request):
     allQuiz = Quiz.objects.all()
-    return render(request, "showAllQuiz.html", locals())
+    if request.method == 'POST':
+        form = createQuizForm(request.POST)
+        if form.is_valid():
+            name = request.POST["name"].strip()
+            discript = request.POST["descript"]
+            current_time = datetime.now()
+            nowTimeString = current_time.strftime("%Y%m%d%H%M%S")
+            hashId = hashEncoding(nowTimeString)[:6]
+            quizOfinstance = Quiz.objects.create(title=name, description = discript,quizId = hashId)
+            quizOfinstance.save()
+            return redirect('/showAllQuiz/')
+    else:
+        form = createQuizForm()
+        context = {"form":form, "allQuiz":allQuiz}
+    return render(request, "showAllQuiz.html", context)
+
+

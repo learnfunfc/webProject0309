@@ -58,4 +58,10 @@ class QuestionForm(forms.ModelForm):
         self.choice_forms = [ChoiceForm(
             prefix=f'choice_{i}') for i in range(num_choices)]
         self.fields["text"].label="題目"
-        
+
+
+class createQuizForm(forms.Form):
+    name = forms.CharField(label="測驗名稱", widget=forms.TextInput(
+        attrs={'class': 'form-control'}), max_length=100)
+    descript = forms.CharField(
+        label="測驗敘述", widget=forms.Textarea(attrs={'class': 'form-control'}))
