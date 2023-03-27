@@ -30,23 +30,23 @@ class CreateUnitForm(forms.Form):
 class ChoiceForm(forms.ModelForm):
     class Meta:
         model = Choice  # 要參照的哪一個model
-        fields = ('text', 'is_correct')  # 使用choice model 欄位名稱
+        fields = ('field_text', 'field_is_correct')  # 使用choice model 欄位名稱
         
         widgets = {
-            'text': forms.TextInput(attrs={'class': 'form-control'}),
-            'is_correct': forms.CheckboxInput(attrs={'class': 'form-check-input'})
+            'field_text': forms.TextInput(attrs={'class': 'form-control'}),
+            'field_is_correct': forms.CheckboxInput(attrs={'class': 'form-check-input'})
         }
-        labels = {"text":"選項內容", "is_correct": "正確答案"}
+        labels = {"field_text":"選項內容", "field_is_correct": "正確答案"}
 
 
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ('text','tag')
+        fields = ('field_text','field_tag')
         #表單中輸入逗號分隔的標籤，如 "tag1, tag2, tag3", tags_list = question.tags.split(', ')逗號分隔的字符串，並在需要時將其轉換為列表
         widgets = {
-            'text': forms.TextInput(attrs={'class': 'form-control'}),
-            'tag': forms.TextInput(attrs={'class': 'form-control'})
+            'field_text': forms.TextInput(attrs={'class': 'form-control'}),
+            'field_tag': forms.TextInput(attrs={'class': 'form-control'})
         }
         
 
@@ -57,7 +57,7 @@ class QuestionForm(forms.ModelForm):
         #創建一個名為 choice_forms 的屬性，該屬性包含 num_choices 數量的 ChoiceForm 實例列表。我們為每個 ChoiceForm 提供了一個唯一的前綴（例如，choice_0，choice_1 等），以便在提交表單時能夠區分這些表單。
         self.choice_forms = [ChoiceForm(
             prefix=f'choice_{i}') for i in range(num_choices)]
-        self.fields["text"].label="題目"
+        self.fields["field_text"].label="題目"
 
 
 class createQuizForm(forms.Form):

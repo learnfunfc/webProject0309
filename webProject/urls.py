@@ -26,8 +26,9 @@ urlpatterns = [
     # create question url
     path('create_question/', views.create_question, name='create_question'),
     path('showAllQuestion/', views.showAllQuestion, name='showAllQuestion'),
-    path('showAllQuiz/<str:quizID>', views.createQuiz, name='create_quiz'),
+    path('showAllQuiz/<str:quizID>/', views.createQuiz, name='create_quiz'),
     path('addQ2quiz/',views.addQuestionInQuiz),
+    path("updatepage/<str:name>/<int:primaryId>/",views.updatePage)
 ]
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
