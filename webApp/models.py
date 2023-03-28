@@ -8,7 +8,7 @@ class CourseCatalog(models.Model):
     field_pic = models.CharField(default="#", max_length=200)
 
     def __str__(self):
-        return self.name
+        return self.field_name
 
 class TeachCourse(models.Model):
     course_catalog = models.ForeignKey(CourseCatalog, on_delete=models.CASCADE)
@@ -17,7 +17,7 @@ class TeachCourse(models.Model):
     field_pic = models.CharField(default='#', max_length=200)
 
     def __str__(self):
-        return self.name
+        return self.field_name
 
 
 class TeachCourseUnit(models.Model):
@@ -27,7 +27,7 @@ class TeachCourseUnit(models.Model):
     field_fileId = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return self.name
+        return self.field_name
 
 # 測驗
 class Quiz(models.Model):
@@ -38,7 +38,7 @@ class Quiz(models.Model):
     field_createDate = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.title
+        return self.field_title
 
 # 題目
 class Question(models.Model):
@@ -46,7 +46,7 @@ class Question(models.Model):
     field_objId = models.CharField(max_length=200,null=True)
     field_tag = models.CharField(max_length=255, blank=True, null=True)
     def __str__(self):
-        return self.text
+        return self.field_text
 
 #選項
 class Choice(models.Model):
@@ -55,4 +55,4 @@ class Choice(models.Model):
     field_is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.text
+        return self.field_text

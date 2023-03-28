@@ -152,9 +152,13 @@ def create_question(request):
 
     return render(request, 'create_question.html', {'form': form, 'choice_forms': form.choice_forms})
 
-
+# 取得資料庫中所有question或者該 quiz的所有question
 def showAllQuestion(request,quizID):
-    # allQuestion = Quiz.objects.get(qut)
+    # if quizID:
+    #     quizInstance = Quiz.objects.get(field_objId=quizID)
+        
+
+   
     return render(request, "showAllQuestion.html", locals())
 
 

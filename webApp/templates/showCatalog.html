@@ -36,11 +36,11 @@
             <img class="card-img-top"
               data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
               alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block"
-              src="/media/{{item.catalogOfpic}}.jpg" data-holder-rendered="true" />
+              src="/media/{{item.field_pic}}.jpg" data-holder-rendered="true" />
             <div class="card-body">
               <!-- use model instance primary id id-->
-              <p class="card-text" id="{{item.id}}">{{ item.CourseCatalogName}}</p>
-              <p class="card-text">{{ item.description}}</p>
+              <p class="card-text" id="{{item.id}}">{{ item.field_name}}</p>
+              <p class="card-text">{{ item.field_description}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   
