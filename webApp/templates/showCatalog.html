@@ -36,18 +36,27 @@
             <img class="card-img-top"
               data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
               alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block"
+<<<<<<< HEAD
               src="/media/{{item.catalogOfpic}}.jpg" data-holder-rendered="true" />
+=======
+              src="/media/{{item.field_pic}}.jpg" data-holder-rendered="true" />
+>>>>>>> feature_quiz
             <div class="card-body">
-              <!--加上forloop.counter 編號id-->
-              <p class="card-text" id="{{forloop.counter}}">{{ item.CourseCatalogName}}</p>
-              <p class="card-text">{{ item.description}}</p>
+              <!-- use model instance primary id id-->
+              <p class="card-text" id="{{item.id}}">{{ item.field_name}}</p>
+              <p class="card-text">{{ item.field_description}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <!-- modify location.href-->
+                  
                   <button type="button" class="btn btn-sm btn-outline-secondary"
-                    onclick="getViewId({{forloop.counter}})" id="button{{forloop.counter}}">
+                    onclick="getViewId({{item.id}})" id="button{{item.id}}">
                     View
                   </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"
+                    onclick="EditObj({{item.id}})" id="button{{item.id}}">
+                    Edit
+                  </button>
+                  
 
                 </div>
               </div>
@@ -106,16 +115,27 @@
 
   function getViewId(elementId) {
     let e = document.getElementById(elementId);
+<<<<<<< HEAD
     if (elementId==1)
     {
       window.location.href = "/showAllQuiz/" ;
     }
     else if (elementId == 2)
     {
+=======
+    if (elementId == 1) {
+      window.location.href = "/showAllQuiz/";
+    }
+    else if (elementId == 2) {
+>>>>>>> feature_quiz
       window.location.href = "/createCourse/" + e.innerHTML;
     }
   }
 
+  function EditObj(elementId)
+  {
+    window.location.href="/updatepage/CourseCatalog/"+elementId+"/";
+  }
 
   function notion() {
     alert("新增成功");

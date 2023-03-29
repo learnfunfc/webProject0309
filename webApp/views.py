@@ -3,12 +3,15 @@ from django.http import HttpResponse
 from .models import CourseCatalog, TeachCourseUnit, TeachCourse, Quiz, Question, Choice
 from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm, QuestionForm, ChoiceForm,createQuizForm
 from django.conf import settings
-from uuid_upload_path import uuid  # not used
 import os
 import glob
 from hashlib import sha256
 from datetime import datetime
+<<<<<<< HEAD
 
+=======
+from .myModule import hashEncoding,save_File
+>>>>>>> feature_quiz
 
 
 # present web content
@@ -37,6 +40,7 @@ def createCatalog(request):
     if request.method == "POST":  # 如果是表單傳來的資料
         upLoadForm = CreateCatalogForm(
             request.POST, request.FILES)  # use form.py產生 form
+<<<<<<< HEAD
 
         if upLoadForm.is_valid():
             upLoadfile = save_File(request.FILES['file'], "jpg")
@@ -104,6 +108,78 @@ def editUnit(request, courseName=None):
 
         if upLoadForm.is_valid():
             upLoadfile = save_File(request.FILES['file'], "html")
+=======
+
+        if upLoadForm.is_valid():
+            upLoadfile = save_File(request.FILES['file'], "jpg")
+>>>>>>> feature_quiz
+
+            name = request.POST["name"].strip()
+            discript = request.POST["descript"]
+            filename = request.FILES['file'].name.split(".")[0]
+            file_id = hashEncoding(filename)
+
+<<<<<<< HEAD
+            unintOfinstance = TeachCourseUnit.objects.create(
+                teach_course=course, unitName=name, unit_description=discript, fileId=file_id)
+=======
+            CatalogOfinstance = CourseCatalog.objects.create(
+                field_name=name, field_description=discript, field_pic=file_id)
+            CatalogOfinstance.save()
+            return redirect("/createCatalog/")
+    else:
+
+        form = CreateCatalogForm(request.POST)
+        allObject = CourseCatalog.objects.all()
+
+    return render(request, "showCatalog.html", {"form": form,  "allObject": allObject})
+
+
+def createCourse(request, courseName=None):
+    if request.method == "POST" and courseName:  # 如果是表單傳來的資料
+        upLoadForm = CreateCourseForm(
+            request.POST, request.FILES)  # use form.py產生 form
+        course = CourseCatalog.objects.get(field_name=courseName)
+        if upLoadForm.is_valid():
+            upLoadfile = save_File(request.FILES['file'], "jpg")
+
+            name = request.POST["name"].strip()
+            discript = request.POST["descript"]
+            filename = request.FILES['file'].name.split(".")[0]
+            file_id = hashEncoding(filename)
+
+            CourseOfinstance = TeachCourse.objects.create(
+                course_catalog=course, field_name=name, field_description=discript, field_pic=file_id)
+            CourseOfinstance.save()
+            return redirect("/createCourse/"+courseName)
+    else:
+        # 不是表單傳來的post就產生表單
+
+        form = CreateCourseForm(request.POST)
+        course = CourseCatalog.objects.get(field_name=courseName)
+        allunit = course.teachcourse_set.all()  # 注意此寫法
+
+    return render(request, "showCourse.html", {"form": form, "allObject": allunit})
+
+
+def showUnitContent(request, fileId):
+    target = os.path.join(settings.BASE_DIR, "webApp",
+                          "templates2", fileId + '.html')
+    with open(target, "r", encoding="utf-8") as file:
+        content = file.read()
+
+    return render(request, "showUnitContent.html", locals())
+
+
+# 進入編輯unit網頁儲存資料庫和html file
+def editUnit(request, courseName=None):
+    if request.method == "POST" and courseName:  # 如果是表單傳來的資料
+        upLoadForm = CreateUnitForm(
+            request.POST, request.FILES)  # use form.py產生 form
+        course = TeachCourse.objects.get(field_name=courseName)
+
+        if upLoadForm.is_valid():
+            upLoadfile = save_File(request.FILES['file'], "html")
 
             name = request.POST["name"].strip()
             discript = request.POST["descript"]
@@ -111,18 +187,24 @@ def editUnit(request, courseName=None):
             file_id = hashEncoding(filename)
 
             unintOfinstance = TeachCourseUnit.objects.create(
-                teach_course=course, unitName=name, unit_description=discript, fileId=file_id)
+                teach_course=course, field_name=name, field_description=discript, field_fileId=file_id)
+>>>>>>> feature_quiz
             unintOfinstance.save()
             return redirect("/editunit/"+courseName)
     else:
         # 不是表單傳來的post就產生表單
         form = CreateUnitForm(request.POST)
+<<<<<<< HEAD
         course = TeachCourse.objects.get(TeachCourseName=courseName)
+=======
+        course = TeachCourse.objects.get(field_name=courseName)
+>>>>>>> feature_quiz
         allunit = course.teachcourseunit_set.all()  # 注意此寫法
 
     return render(request, "showUnit.html", {"form": form, "courseName": courseName, "allObject": allunit})
 
 
+<<<<<<< HEAD
 def save_File(f, filetype):
     filename = f.name
     filename = filename.split(".")[0]  # remove file extention
@@ -146,6 +228,10 @@ def hashEncoding(string, length=15):
     return hashValue[:length]
 
 
+=======
+
+
+>>>>>>> feature_quiz
 def create_question(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST, num_choices=4)
@@ -175,9 +261,19 @@ def create_question(request):
 
     return render(request, 'create_question.html', {'form': form, 'choice_forms': form.choice_forms})
 
+<<<<<<< HEAD
 
 def showAllQuestion(request,quizID):
     # allQuestion = Quiz.objects.get(qut)
+=======
+# 取得資料庫中所有question或者該 quiz的所有question
+def showAllQuestion(request,quizID):
+    # if quizID:
+    #     quizInstance = Quiz.objects.get(field_objId=quizID)
+        
+
+   
+>>>>>>> feature_quiz
     return render(request, "showAllQuestion.html", locals())
 
 
@@ -191,7 +287,11 @@ def createQuiz(request):
             current_time = datetime.now()
             nowTimeString = current_time.strftime("%Y%m%d%H%M%S")
             hashId = hashEncoding(nowTimeString)[:6]
+<<<<<<< HEAD
             quizOfinstance = Quiz.objects.create(title=name, description = discript,quizId = hashId)
+=======
+            quizOfinstance = Quiz.objects.create(field_title=name, field_description = discript,field_objId = hashId)
+>>>>>>> feature_quiz
             quizOfinstance.save()
             return redirect('/showAllQuiz/')
     else:
@@ -203,4 +303,22 @@ def createQuiz(request):
 def addQuestionInQuiz(request):
     if request.method == "POST":
         print(request.POST)
+<<<<<<< HEAD
     return redirect('/showAllQuestion/')
+=======
+    return redirect('/showAllQuestion/')
+
+
+def updatePage(request,name,primaryId):
+    if name == "CourseCatalog":
+        getInstance = CourseCatalog.objects.get(id=primaryId)
+    if name == "TeachCourse":
+        getInstance = TeachCourse.objects.get(id=primaryId)
+
+    # initial_data = {
+    #         'field1': getInstance.name,
+    #         'field2': my_model_instance.field2,
+    #     }
+    return render(request,"updatepage.html",locals())
+
+>>>>>>> feature_quiz
