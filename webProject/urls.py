@@ -17,13 +17,17 @@ urlpatterns = [
 
     
     path("createCatalog/", views.createCatalog), 
+    path("createCatalog/<str:courseName>/", views.createCatalog), 
     path("createCourse/", views.createCourse, name="creat_Course"),
     path("createCourse/<str:courseName>/", views.createCourse, name="creat_Course"),
     path("editunit/", views.editUnit),
     path("editunit/<str:courseName>/", views.editUnit, name="create_unit"),
     path("showUnitContent/<str:fileId>/", views.showUnitContent),
-    
-
+    # create question url
+    path('create_question/', views.create_question, name='create_question'),
+    path('showAllQuestion/', views.showAllQuestion, name='showAllQuestion'),
+    path('showAllQuiz/<str:quizID>', views.createQuiz, name='create_quiz'),
+    path('addQ2quiz/',views.addQuestionInQuiz),
 ]
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

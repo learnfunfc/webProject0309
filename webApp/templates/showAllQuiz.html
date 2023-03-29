@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}測驗選單{% endblock%}
+{% block content %}
+<!--enter catalog menu-->
+<main role="main">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4" style="font-weight: bolder">測驗選單</h1>
+        </div>
+    </div>
+
+    <!--breadcrumb-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="margin: 0px;">
+            <li class="breadcrumb-item active" aria-current="page"><a href="/show_catalog/">系統目錄</a></li>
+            <li class="breadcrumb-item active" aria-current="page">測驗選單</li>
+        </ol>
+    </nav>
+
+    <!--new button-->
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-end mb-5">
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal"
+                        style="font-size: 24px">
+                        New
+                    </button>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"  style="width: 9%;">編號</th>
+                                <th scope="col">測驗ID</th>
+                                <th scope="col">測驗名稱</th>
+                
+                                <th scope="col">測驗說明</th>
+                                <th scope="col" style="width: 10%;"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% load static %}
+                            {% for q in allQuiz %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <th scope="row">{{q.quizId}}</th>
+                                <td>{{ q.title}}</td>
+                                <td>{{ q.description}}</td>
+                                <td><a href="/showAllQuestion/{{q.quizId}}">進入</a> </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                </div>
+                <!-- modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="width:700px">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">新增{{courseName}}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <!--modal body-->
+                            <div class="modal-body">
+
+                                <form method="POST" action="/showAllQuiz/"
+                                    enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% for field in form %}
+                                    <div class="mt-5">
+                                        <h3>{{ field.label}}</h3>
+                                        {{ field}}
+                                    </div>
+                                    {% endfor%}
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" onclick="notion()">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+</main>
+{% endblock %}
+
+
+
+{% block Script %}
+
+<script>
+    // view button event
+    function getViewId(elementId) {
+        let e = document.getElementById(elementId);
+
+        window.location.href = "/editunit/" + e.innerHTML; //呼叫show_unit/python etc url
+
+    }
+
+
+    function notion() {
+        alert("新增成功");
+    }
+</script>
+
+
+{% endblock %}
