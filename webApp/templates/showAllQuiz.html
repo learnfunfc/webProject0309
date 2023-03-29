@@ -34,39 +34,35 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-<<<<<<< HEAD
-                                <th scope="col"  style="width: 9%;">編號</th>
-                                <th scope="col">測驗ID</th>
-                                <th scope="col">測驗名稱</th>
-                
-                                <th scope="col">測驗說明</th>
-=======
                                 <th scope="col" style="width: 9%;">編號</th>
                                 <th scope="col">測驗ID</th>
                                 <th scope="col">測驗名稱</th>
                                 <th scope="col">測驗說明</th>
-                                <th scope="col style="width: 10%;">建立日期</th>
->>>>>>> feature_quiz
+                                <th scope="col">tag</th>
+                                <th scope="col" style=" width: 10%;">建立日期</th>
                                 <th scope="col" style="width: 10%;"> </th>
                             </tr>
                         </thead>
                         <tbody>
                             {% load static %}
+                            {% load json_tags %}
                             {% for q in allQuiz %}
                             <tr>
                                 <th scope="row">{{forloop.counter}}</th>
-<<<<<<< HEAD
-                                <th scope="row">{{q.quizId}}</th>
-                                <td>{{ q.title}}</td>
-                                <td>{{ q.description}}</td>
-                                <td><a href="/showAllQuestion/{{q.quizId}}">進入</a> </td>
-=======
                                 <th scope="row">{{q.field_objId}}</th>
                                 <td>{{ q.field_title}}</td>
                                 <td>{{ q.field_description}}</td>
+                                <td>
+                                    {% with q.field_tag|json_to_list as tag_list %}
+                                    {% for s in tag_list %}  
+                                        {{s}}
+                                    {% endfor %}
+                                    {% endwith %}
+                                </td>
                                 <td>{{q.field_createDate|date:"j/m/Y"}}</td>
+
+
                                 <td><a href="/showAllQuestion/{{q.field_objId}}">進入</a> </td>
->>>>>>> feature_quiz
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -85,12 +81,7 @@
                             <!--modal body-->
                             <div class="modal-body">
 
-<<<<<<< HEAD
-                                <form method="POST" action="/showAllQuiz/"
-                                    enctype="multipart/form-data">
-=======
                                 <form method="POST" action="/showAllQuiz/" enctype="multipart/form-data">
->>>>>>> feature_quiz
                                     {% csrf_token %}
                                     {% for field in form %}
                                     <div class="mt-5">
@@ -124,19 +115,7 @@
 {% block Script %}
 
 <script>
-<<<<<<< HEAD
-    // view button event
-    function getViewId(elementId) {
-        let e = document.getElementById(elementId);
 
-        window.location.href = "/editunit/" + e.innerHTML; //呼叫show_unit/python etc url
-
-    }
-
-
-=======
-    
->>>>>>> feature_quiz
     function notion() {
         alert("新增成功");
     }

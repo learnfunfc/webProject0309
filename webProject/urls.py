@@ -25,17 +25,11 @@ urlpatterns = [
     path("showUnitContent/<str:fileId>/", views.showUnitContent),
     # create question url
     path('create_question/', views.create_question, name='create_question'),
-<<<<<<< HEAD
-    path('showAllQuestion/', views.showAllQuestion, name='showAllQuestion'),
-    path('showAllQuiz/<str:quizID>', views.createQuiz, name='create_quiz'),
-    path('addQ2quiz/',views.addQuestionInQuiz),
-=======
     path('showAllQuestion/<str:quizID>', views.showAllQuestion, name='showAllQuestion'),
      path('showAllQuiz/', views.createQuiz, name='create_quiz'),
     path('showAllQuiz/<str:quizID>/', views.createQuiz, name='create_quiz'),
     path('addQ2quiz/',views.addQuestionInQuiz),
     path("updatepage/<str:name>/<int:primaryId>/",views.updatePage)
->>>>>>> feature_quiz
 ]
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

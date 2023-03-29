@@ -36,11 +36,7 @@
             <img class="card-img-top"
               data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
               alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block"
-<<<<<<< HEAD
-              src="/media/{{item.catalogOfpic}}.jpg" data-holder-rendered="true" />
-=======
               src="/media/{{item.field_pic}}.jpg" data-holder-rendered="true" />
->>>>>>> feature_quiz
             <div class="card-body">
               <!-- use model instance primary id id-->
               <p class="card-text" id="{{item.id}}">{{ item.field_name}}</p>
@@ -115,19 +111,10 @@
 
   function getViewId(elementId) {
     let e = document.getElementById(elementId);
-<<<<<<< HEAD
-    if (elementId==1)
-    {
-      window.location.href = "/showAllQuiz/" ;
-    }
-    else if (elementId == 2)
-    {
-=======
     if (elementId == 1) {
       window.location.href = "/showAllQuiz/";
     }
     else if (elementId == 2) {
->>>>>>> feature_quiz
       window.location.href = "/createCourse/" + e.innerHTML;
     }
   }
