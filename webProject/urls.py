@@ -25,9 +25,13 @@ urlpatterns = [
     path("showUnitContent/<str:fileId>/", views.showUnitContent),
     # create question url
     path('create_question/', views.create_question, name='create_question'),
-    path('showAllQuestion/<str:quizID>', views.showAllQuestion, name='showAllQuestion'),
-     path('showAllQuiz/', views.createQuiz, name='create_quiz'),
+
+    path('showAllQuestion/', views.showAllQuestion, name='showAllQuestion'),
+    path('showAllQuestion/<str:quizID>/', views.showAllQuestion, name='showAllQuestion'),
+
+    path('showAllQuiz/', views.createQuiz, name='create_quiz'),
     path('showAllQuiz/<str:quizID>/', views.createQuiz, name='create_quiz'),
+
     path('addQ2quiz/',views.addQuestionInQuiz),
     path("updatepage/<str:name>/<int:primaryId>/",views.updatePage)
 ]

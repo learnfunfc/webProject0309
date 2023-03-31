@@ -36,6 +36,8 @@ class Quiz(models.Model):
     field_description = models.TextField(blank=True, null=True)
     field_createDate = models.DateTimeField(default=timezone.now)
     field_tag = JSONField(default=list)
+    field_questionList = JSONField(default=list)
+    
 
     def __str__(self):
         return self.field_title

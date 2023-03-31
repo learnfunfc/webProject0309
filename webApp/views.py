@@ -128,9 +128,12 @@ def create_question(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST, num_choices=4)
         if form.is_valid():
-            id = hashEncoding("a001")
+            print("check")
             question = form.save(commit=False)
-            question.questionId = id
+            current_time = datetime.now()
+            nowTimeString = current_time.strftime("%Y%m%d%H%M%S")
+            id = hashEncoding(nowTimeString)[:6]
+            question.field_objId = id
             
             # save form
             question = form.save()
@@ -157,6 +160,7 @@ def create_question(request):
 def showAllQuestion(request,quizID):
     # if quizID:
     #     quizInstance = Quiz.objects.get(field_objId=quizID)
+    allQuestion = Question.objects.all()
     return render(request, "showAllQuestion.html", locals())
 
 

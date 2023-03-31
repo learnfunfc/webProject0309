@@ -31,12 +31,12 @@
                         {% for q in allQuestion %}
                         <tr>
                             <th scope="row">{{forloop.counter}}</th>
-                            <td>{{ q.text}}</td>
+                            <td>{{ q.field_text}}</td>
                             <!-- show checkbox  -->
                             <td>
                                 <div class="form-check">
                                     <input class="form-check-input position-static" type="checkbox" id="blankCheckbox"
-                                        name={{q.questionId}} value="true">
+                                        name={{q.field_objId}} value="true">
                                 </div>
                             </td>
                         </tr>
