@@ -2,19 +2,30 @@
 {% block title %} 題目 {% endblock %}
 {% block content %}
 <div class="container mt-5">
-    <!--new button-->
+
     <div class="album py-5 bg-light">
         <div class="container">
+            <!--new button-->
             <div class="row justify-content-end mb-5">
                 <div class="col-2">
                     <button type="button" class="btn btn-dark" data-toggle="modal"
                         onclick="location.href='/create_question/'" style="font-size: 24px">
-                        New
+                        新增題目
                     </button>
                 </div>
+
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" data-toggle="modal"
+                        onclick="location.href='/showAllQuiz/'" style="font-size: 24px">
+                        所有測驗
+                    </button>
+
+                </div>
+                
+
             </div>
 
-            <form method="POST" action="/addQ2quiz/">
+            <form class="form-inline" method="POST" action="/addQ2quiz/">
                 {% csrf_token %}
                 <table class="table">
                     <thead class="thead-dark">
@@ -34,9 +45,10 @@
                             <td>{{ q.field_text}}</td>
                             <!-- show checkbox  -->
                             <td>
+                                <!-- 將checkbox群組化 -->
                                 <div class="form-check">
                                     <input class="form-check-input position-static" type="checkbox" id="blankCheckbox"
-                                        name={{q.field_objId}} value="true">
+                                        name="group" value={{q.field_objId}}>
                                 </div>
                             </td>
                         </tr>
@@ -44,7 +56,16 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-primary" onclick="notion()">確定</button>
+                <div class="form-group mb-2">
+                    <label for="staticEmail2" class="sr-only">要匯入的測驗ID</label>
+
+                </div>
+                <div class="form-group col-6 mb-1">
+                    <label for="quizIDinput" class="col-6 col-form-label">要匯入的測驗ID</label>
+                    <input type="text" class="form-control" name="quizIDinput" id="quizIDinput">
+                </div>
+
+                <button type="submit" class="btn btn-primary" >匯入</button>
             </form>
 
         </div>

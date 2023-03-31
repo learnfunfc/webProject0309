@@ -133,7 +133,8 @@ def create_question(request):
         request.POST._mutable = True
         request.POST['field_tag'] = tags_json
         request.POST._mutable = False
-        
+
+
         if form.is_valid():
             question = form.save(commit=False)
             
@@ -141,6 +142,7 @@ def create_question(request):
             nowTimeString = current_time.strftime("%Y%m%d%H%M%S")
             id = hashEncoding(nowTimeString)[:6]
             question.field_objId = id
+            
             question.save()
             
             """ 使用 enumerate 函數獲取當前選擇表單的索引。
@@ -165,10 +167,31 @@ def create_question(request):
 
 # 取得資料庫中所有question或者該 quiz的所有question
 def showAllQuestion(request,quizID=None):
-    # if quizID:
-    #     quizInstance = Quiz.objects.get(field_objId=quizID)
-    allQuestion = Question.objects.all()
+    if quizID:
+        # 取得quiz實體
+        quizInstance = Quiz.objects.get(field_objId=quizID)
+        # 取得quiz 問題列表
+        allQuestion = quizInstance.field_questionList
+        
+        print(allQuestion)
+    else:
+        # 輸出資料庫中所有問題表單
+        allQuestion = Question.objects.all()
     return render(request, "showAllQuestion.html", locals())
+
+
+def showExam(request,quizId=None):
+    quizInstance = Quiz.objects.get(field_objId=quizId)
+    allQuestion = quizInstance.field_questionList
+    html=""
+    for qId in allQuestion:
+        questionInstance = Question.objects.get(field_objId= qId)
+        html += "<h3>"+questionInstance.field_text+"</h3>"
+        choiceInstance = Choice.objects.filter(field_question=questionInstance)
+        for choice in choiceInstance:
+            html += "<input type='radio' name='choice' value='"+choice.field_text+"'>"+choice.field_text+"<br>"
+
+    return HttpResponse(html)
 
 
 def createQuiz(request):
@@ -200,7 +223,17 @@ def createQuiz(request):
 
 def addQuestionInQuiz(request):
     if request.method == "POST":
-        print(request.POST)
+        quizID = request.POST["quizIDinput"]
+        quizInstance = Quiz.objects.get(field_objId=quizID)
+        questionList = quizInstance.field_questionList
+        # 取得選取的questionId
+        selected_options = request.POST.getlist('group')
+
+        for i in selected_options:
+            questionList.append(i)
+        quizInstance.field_questionList = questionList
+        quizInstance.save()
+        
     return redirect('/showAllQuestion/')
 
 

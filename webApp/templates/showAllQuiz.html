@@ -24,8 +24,15 @@
                 <div class="col-2">
                     <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal"
                         style="font-size: 24px">
-                        New
+                        新增測驗
                     </button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" data-toggle="modal"
+                        onclick="location.href='/showAllQuestion/'" style="font-size: 24px">
+                        題庫
+                    </button>
+
                 </div>
             </div>
 
@@ -62,7 +69,7 @@
                                 <td>{{q.field_createDate|date:"j/m/Y"}}</td>
 
 
-                                <td><a href="/showAllQuestion/{{q.field_objId}}">進入</a> </td>
+                                <td><a href="/show_exam/{{q.field_objId}}">進入</a> </td>
                             </tr>
                             {% endfor %}
                         </tbody>

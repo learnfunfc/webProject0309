@@ -33,7 +33,8 @@ urlpatterns = [
     path('showAllQuiz/<str:quizID>/', views.createQuiz, name='create_quiz'),
 
     path('addQ2quiz/',views.addQuestionInQuiz),
-    path("updatepage/<str:name>/<int:primaryId>/",views.updatePage)
+    path("updatepage/<str:name>/<int:primaryId>/",views.updatePage),
+    path("show_exam/<str:quizId>/", views.showExam),
 ]
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
