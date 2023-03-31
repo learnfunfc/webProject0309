@@ -31,7 +31,8 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col" style="width: 10%;">編號</th>
-                            <th scope="col">題目</th>
+                            <th scope="col" style="width: 60%;">題目</th>
+                            <th scope="col" style="width: 20%;">標籤</th>
                             <th scope="col" style="width: 10%;"> 加入 </th>
                         </tr>
                     </thead>
@@ -43,6 +44,11 @@
                         <tr>
                             <th scope="row">{{forloop.counter}}</th>
                             <td>{{ q.field_text}}</td>
+                            <td>
+                                {% for s in q.field_tag %}  
+                                    {{s}}
+                                {% endfor %}
+                                </td>
                             <!-- show checkbox  -->
                             <td>
                                 <!-- 將checkbox群組化 -->
