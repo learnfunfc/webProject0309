@@ -126,17 +126,23 @@ def editUnit(request, courseName=None):
 
 def create_question(request):
     if request.method == 'POST':
+        
         form = QuestionForm(request.POST, num_choices=4)
+        tags_str = request.POST.get('field_tag', '')
+        tags_json = json.dumps(tags_str.split(', '))
+        request.POST._mutable = True
+        request.POST['field_tag'] = tags_json
+        request.POST._mutable = False
+        
         if form.is_valid():
-            print("check")
             question = form.save(commit=False)
+            
             current_time = datetime.now()
             nowTimeString = current_time.strftime("%Y%m%d%H%M%S")
             id = hashEncoding(nowTimeString)[:6]
             question.field_objId = id
+            question.save()
             
-            # save form
-            question = form.save()
             """ 使用 enumerate 函數獲取當前選擇表單的索引。
                 然後，我們使用從 request.POST 提交的數據以及相應的前綴來初始化每個 choice_form。
                 這樣，驗證函數將使用提交的數據對每個 choice_form 進行驗證，然後正確地保存 choice。 """
@@ -147,17 +153,18 @@ def create_question(request):
                 if choice_form.is_valid():
 
                     choice = choice_form.save(commit=False)
-                    choice.question = question
+                    choice.field_question = question
                     
                     choice.save()
-            return redirect('/showAllQuestion/')
+        return redirect('/showAllQuestion/')
+        
     else:
         form = QuestionForm(num_choices=4)  # 創建一個空的 QuestionForm 實例，等待用戶提交表單
 
     return render(request, 'create_question.html', {'form': form, 'choice_forms': form.choice_forms})
 
 # 取得資料庫中所有question或者該 quiz的所有question
-def showAllQuestion(request,quizID):
+def showAllQuestion(request,quizID=None):
     # if quizID:
     #     quizInstance = Quiz.objects.get(field_objId=quizID)
     allQuestion = Question.objects.all()
