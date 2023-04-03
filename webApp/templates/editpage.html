@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}系統目錄{% endblock%}
+{% block content %}
+<div class="container">
+    <form method="POST" action="/createCatalog/" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mt-5">
+            <h3>{{ field.label}}</h3>
+            {{ field}}
+        </div>
+        {% endfor%}
+
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+            </button>
+            <button type="submit" class="btn btn-primary" onclick="notion()">Save</button>
+        </div>
+    </form>
+</div>
+
+{% endblock%}
+
+{% block Script %}
+
+<script>
+
+
+  function notion() {
+    alert("新增成功");
+    window.location.href="/saveCatalog/"+ +pkId+"/";
+  }
+</script>
+
+
+{% endblock %}

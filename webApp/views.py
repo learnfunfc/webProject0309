@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import CourseCatalog, TeachCourseUnit, TeachCourse, Quiz, Question, Choice
-from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm, QuestionForm, ChoiceForm,createQuizForm
+from .forms import CreateCourseForm, CreateCatalogForm, CreateUnitForm, QuestionForm, ChoiceForm,createQuizForm,CreateCatalogFormWithoutFile
 from django.conf import settings
 import os
 import glob
@@ -55,6 +55,24 @@ def createCatalog(request):
         allObject = CourseCatalog.objects.all()
 
     return render(request, "showCatalog.html", {"form": form,  "allObject": allObject})
+
+
+# 修改Catalog內容
+def editCatalog(request,pkId):
+    instance = CourseCatalog.objects.get(id=pkId)
+    if request.method == "POST":
+        pass # 儲存
+    else:
+        initial_data = {
+            'name': instance.field_name,
+            'descript': instance.field_description,
+            # 使用实例数据为其他表单字段设置初始值
+        }
+
+        form = CreateCatalogFormWithoutFile(initial=initial_data)
+        allObject = CourseCatalog.objects.all()
+    return render(request, "editpage.html", {'form': form,'pk':pkId})
+
 
 
 def createCourse(request, courseName=None):
@@ -248,4 +266,5 @@ def updatePage(request,name,primaryId):
     #         'field2': my_model_instance.field2,
     #     }
     return render(request,"updatepage.html",locals())
+
 

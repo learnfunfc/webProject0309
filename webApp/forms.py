@@ -11,6 +11,11 @@ class CreateCatalogForm(forms.Form):
         label="內容", widget=forms.Textarea(attrs={'class': 'form-control'}))
     file = forms.FileField(label="圖片上傳", required=False)
 
+# 
+class CreateCatalogFormWithoutFile(forms.Form):
+    name = forms.CharField(max_length=100, label="Name")
+    descript = forms.CharField(widget=forms.Textarea, label="Description")
+
 
 class CreateCourseForm(forms.Form):
     name = forms.CharField(label="課程名稱", widget=forms.TextInput(

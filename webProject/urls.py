@@ -18,6 +18,8 @@ urlpatterns = [
     
     path("createCatalog/", views.createCatalog), 
     path("createCatalog/<str:courseName>/", views.createCatalog), 
+    path("createCatalog/edit/<int:pkId>/", views.editCatalog), 
+
     path("createCourse/", views.createCourse, name="creat_Course"),
     path("createCourse/<str:courseName>/", views.createCourse, name="creat_Course"),
     path("editunit/", views.editUnit),
