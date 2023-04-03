@@ -38,17 +38,21 @@
             <img class="card-img-top"
               data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
               alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block"
-              src="/media/{{item.teachOfpic}}.jpg" data-holder-rendered="true" />
+              src="/media/{{item.field_pic}}.jpg" data-holder-rendered="true" />
             <div class="card-body">
               <!--加上forloop.counter 編號id-->
-              <p class="card-text" id="{{forloop.counter}}">{{ item.TeachCourseName}}</p>
-              <p class="card-text">{{ item.teach_description}}</p>
+              <p class="card-text" id="{{forloop.counter}}">{{ item.field_name}}</p>
+              <p class="card-text">{{ item.field_description}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <!-- modify location.href-->
                   <button type="button" class="btn btn-sm btn-outline-secondary"
                     onclick="getViewId({{forloop.counter}})" id="button{{forloop.counter}}">
                     View
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="EditObj({{item.id}})"
+                    id="button{{item.id}}">
+                    Edit
                   </button>
                 </div>
               </div>
@@ -75,7 +79,7 @@
         </div>
         <!--modal body-->
         <div class="modal-body">
-
+          {{courseName}}
           <form method="POST" action="/createCourse/{{courseName}}/" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
@@ -109,9 +113,11 @@
     let e = document.getElementById(elementId);
 
     window.location.href = "/editunit/" + e.innerHTML; //呼叫show_unit/python etc url
-    console.log(window.location.hostname)
+    
   }
-
+  function EditObj(elementId) {
+    window.location.href = "/editCourse/" + elementId + "/";
+  }
 
   function notion() {
     alert("新增成功");

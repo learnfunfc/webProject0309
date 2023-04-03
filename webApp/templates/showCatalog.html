@@ -43,16 +43,16 @@
               <p class="card-text">{{ item.field_description}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  
-                  <button type="button" class="btn btn-sm btn-outline-secondary"
-                    onclick="getViewId({{item.id}})" id="button{{item.id}}">
+
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="getViewId({{item.id}})"
+                    id="button{{item.id}}">
                     View
                   </button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary"
-                    onclick="EditObj({{item.id}})" id="button{{item.id}}">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="EditObj({{item.id}})"
+                    id="button{{item.id}}">
                     Edit
                   </button>
-                  
+
 
                 </div>
               </div>
@@ -79,7 +79,7 @@
         </div>
         <!--modal body-->
         <div class="modal-body">
-
+          <!-- 新增一個新的catalog -->
           <form method="POST" action="/createCatalog/" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
@@ -108,20 +108,23 @@
 {% block Script %}
 
 <script>
-
+  // view button call this
   function getViewId(elementId) {
     let e = document.getElementById(elementId);
+   
     if (elementId == 1) {
+
       window.location.href = "/showAllQuiz/";
+
     }
     else if (elementId == 2) {
+      
       window.location.href = "/createCourse/" + e.innerHTML;
     }
   }
-
-  function EditObj(elementId)
-  {
-    window.location.href="/createCatalog/edit/"+elementId+"/";
+  // edit button call this
+  function EditObj(elementId) {
+    window.location.href = "/editCatalog/" + elementId + "/";
   }
 
   function notion() {

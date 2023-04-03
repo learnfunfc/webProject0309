@@ -40,7 +40,16 @@ def createCatalog(request):
 def editCatalog(request,pkId):
     instance = CourseCatalog.objects.get(id=pkId)
     if request.method == "POST":
-        pass # 儲存
+        form = CreateCatalogForm(request.POST)
+        if form.is_valid():
+             
+            catalog = CourseCatalog.objects.get(id = pkId)
+            
+            catalog.field_name = request.POST["name"].strip()
+            catalog.field_description = request.POST["descript"]
+            catalog.save()
+            return redirect("/createCatalog/")
+
     else:
         initial_data = {
             'name': instance.field_name,
@@ -50,7 +59,7 @@ def editCatalog(request,pkId):
 
         form = CreateCatalogFormWithoutFile(initial=initial_data)
         allObject = CourseCatalog.objects.all()
-    return render(request, "editpage.html", {'form': form,'pk':pkId})
+    return render(request, "editCatalog.html", {'form': form,'pk':pkId})
 
 
 def updatePage(request,name,primaryId):

@@ -47,10 +47,10 @@
             {% for item in allObject %}
             <tr>
               <th scope="row">{{forloop.counter}}</th>
-              <td>{{ item.unitName}}</td>
-              <td>{{ item.unit_description}}</td>
+              <td>{{ item.field_name}}</td>
+              <td>{{ item.field_description}}</td>
               <!-- ca978112ca1bbdc -->
-              <td><a href="/showUnitContent/{{item.fileId}}">View</a> </td>
+              <td><a href="/showUnitContent/{{item.field_fileId}}">View</a> </td>
 
             </tr>
 

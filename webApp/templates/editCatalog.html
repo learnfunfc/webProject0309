@@ -2,7 +2,7 @@
 {% block title %}系統目錄{% endblock%}
 {% block content %}
 <div class="container">
-    <form method="POST" action="/createCatalog/" enctype="multipart/form-data">
+    <form method="POST" action="/editCatalog/{{pk}}/" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
         <div class="mt-5">
@@ -30,7 +30,7 @@
 
   function notion() {
     alert("新增成功");
-    window.location.href="/saveCatalog/"+ +pkId+"/";
+   
   }
 </script>
 
