@@ -23,6 +23,12 @@ class CreateCourseForm(forms.Form):
     descript = forms.CharField(
         label="內容", widget=forms.Textarea(attrs={'class': 'form-control'}))
     file = forms.FileField(label="圖片上傳", required=False)
+    
+
+
+class CreateCourseFormithoutFile(forms.Form):
+    name = forms.CharField(max_length=100, label="Name")
+    descript = forms.CharField(widget=forms.Textarea, label="Description")
 
 
 class CreateUnitForm(forms.Form):
@@ -30,7 +36,8 @@ class CreateUnitForm(forms.Form):
         attrs={'class': 'form-control'}), max_length=100)
     descript = forms.CharField(
         label="內容", widget=forms.Textarea(attrs={'class': 'form-control'}))
-    file = forms.FileField(label="上傳檔案", required=False)
+    # file = forms.FileField(label="上傳檔案", required=False)
+    html_text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
 
 # ----------create question form-----------
 
@@ -67,7 +74,6 @@ class QuestionForm(forms.ModelForm):
         self.fields["field_text"].label="題目"
     
     
-
 
 class createQuizForm(forms.Form):
     name = forms.CharField(label="測驗名稱", widget=forms.TextInput(
