@@ -24,6 +24,7 @@ class TeachCourseUnit(models.Model):
     teach_course = models.ForeignKey(TeachCourse, on_delete=models.CASCADE)
     field_name = models.CharField(max_length=200)
     field_description = models.TextField(max_length=200, null=True)
+    field_html = models.TextField(null=True)
     field_fileId = models.CharField(max_length=200, null=True)
     
     def __str__(self):

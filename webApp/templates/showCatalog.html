@@ -111,15 +111,15 @@
   // view button call this
   function getViewId(elementId) {
     let e = document.getElementById(elementId);
-   
+
     if (elementId == 1) {
 
-      window.location.href = "/showAllQuiz/";
+      window.location.href = "/createCourse/" + e.innerHTML + "/";
 
     }
     else if (elementId == 2) {
-      
-      window.location.href = "/createCourse/" + e.innerHTML;
+
+      window.location.href = "/showAllQuiz/";
     }
   }
   // edit button call this

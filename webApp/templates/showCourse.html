@@ -54,6 +54,10 @@
                     id="button{{item.id}}">
                     Edit
                   </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="deleteObj({{item.id}})"
+                    id="button{{item.id}}-1">
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
@@ -118,7 +122,14 @@
   function EditObj(elementId) {
     window.location.href = "/editCourse/" + elementId + "/";
   }
-
+  function deleteObj(elementId){
+    var isDeleted = confirm("確定是否刪掉此課程?");
+    if (isDeleted)
+    {
+      window.location.href="/deleteCourse/"+ elementId + "/";
+    }
+    
+  }
   function notion() {
     alert("新增成功");
   }

@@ -12,8 +12,6 @@ from .myModule import hashEncoding,save_File
 import json
 
 
-
-
 def createCourse(request, courseName=None):
     
     if request.method == "POST" and courseName:  # 如果是表單傳來的資料
@@ -43,7 +41,7 @@ def createCourse(request, courseName=None):
     return render(request, "showCourse.html", {"form": form, "allObject": allunit,"courseName":courseName})
 
 
-# 修改Catalog內容
+# 修改Course卡片內容
 def editCourse(request,pkId):
     instance = TeachCourse.objects.get(id=pkId)
     if request.method == "POST":
@@ -68,4 +66,10 @@ def editCourse(request,pkId):
         form = CreateCourseFormithoutFile(initial=initial_data)
         allObject = TeachCourse.objects.all()
     return render(request, "editCourse.html", {'form': form,'pk':pkId})
+
+
+def deleteCourse(request,pkId):
+    instance = TeachCourse.objects.get(pk=pkId)
+    instance.delete()
+    return redirect("/createCatalog/")
 
